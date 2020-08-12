@@ -1,33 +1,28 @@
+// Dependencies
 const express = require("express");
 const cors = require("cors");
 
-// const { uuid } = require("uuidv4");
+// Routers
+const routers = require("./routes");
 
-const app = express();
+class App {
+  constructor() {
+    this.server = express();
 
-app.use(express.json());
-app.use(cors());
+    this.middlewares();
+    this.routes();
+  }
 
-const repositories = [];
+  middlewares() {
+    this.server.use(express.json());
+    this.server.use(cors());
+  }
 
-app.get("/repositories", (request, response) => {
-  // TODO
-});
+  routes() {
+    routers.map((router) => {
+      this.server.use(router);
+    });
+  }
+}
 
-app.post("/repositories", (request, response) => {
-  // TODO
-});
-
-app.put("/repositories/:id", (request, response) => {
-  // TODO
-});
-
-app.delete("/repositories/:id", (request, response) => {
-  // TODO
-});
-
-app.post("/repositories/:id/like", (request, response) => {
-  // TODO
-});
-
-module.exports = app;
+module.exports = new App().server;
