@@ -4,13 +4,14 @@ const { uuid } = require("uuidv4");
 // Database
 const repositories = require("../../database");
 
+// Infra
+const { getSuccessResponse, getErrorResponse } = require("../../infra");
+
 class RepositoriesController {
   getAll(request, response) {
-    return response.json({
-      success: true,
-      data: repositories,
-      error: null,
-    });
+    const successResponse = getSuccessResponse(repositories);
+
+    return response.json(successResponse);
   }
 
   create(request, response) {
@@ -32,19 +33,14 @@ class RepositoriesController {
 
       repositories.push(newRepository);
 
-      return response.json({
-        repositories,
-      });
+      const successResponse = getSuccessResponse(repositories);
+
+      return response.json(successResponse);
     }
 
-    return response.status(400).send({
-      success: false,
-      data: null,
-      error: {
-        code: 400,
-        message: "Oops... something went wrong! Try again later.",
-      },
-    });
+    const errorResponse = getErrorResponse();
+
+    return response.status(400).send(errorResponse);
   }
 }
 
