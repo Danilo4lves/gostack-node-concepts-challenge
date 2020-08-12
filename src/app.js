@@ -1,6 +1,8 @@
 // Dependencies
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
 // Routers
 const routers = require("./routes");
@@ -16,6 +18,8 @@ class App {
   middlewares() {
     this.server.use(express.json());
     this.server.use(cors());
+    this.server.use(helmet());
+    this.server.use(morgan("common"));
   }
 
   routes() {
