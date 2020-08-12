@@ -11,4 +11,6 @@ RepositoriesRouter.get("/repositories", RepositoriesController.getAll);
 
 RepositoriesRouter.post("/repositories", RepositoriesController.create);
 
+RepositoriesRouter.put("/repositories/:id", RepositoriesController.update);
+
 module.exports = RepositoriesRouter;
