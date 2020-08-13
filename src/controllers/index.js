@@ -1,6 +1,8 @@
 // Controllers
 const RepositoriesController = require("./Repositories");
+const LikesController = require("./Likes");
 
-exports.module = {
+module.exports = {
   RepositoriesController,
+  LikesController,
 };
