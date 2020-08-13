@@ -93,6 +93,27 @@ class RepositoriesController {
 
     return response.status(400).json(errorResponse);
   }
+
+  delete(request, response) {
+    const { params = {} } = request;
+    const { id } = params;
+
+    const repositoryTobeFoundIndex = repositories.findIndex((repository) => {
+      return repository.id === id;
+    });
+
+    if (repositoryTobeFoundIndex >= 0) {
+      repositories.splice(repositoryTobeFoundIndex, 1);
+
+      const successResponse = getSuccessResponse(repositories);
+
+      return response.json(successResponse);
+    }
+
+    const errorResponse = getErrorResponse();
+
+    return response.status(400).json(errorResponse);
+  }
 }
 
 module.exports = new RepositoriesController();

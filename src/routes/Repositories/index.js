@@ -13,4 +13,6 @@ RepositoriesRouter.post("/repositories", RepositoriesController.create);
 
 RepositoriesRouter.put("/repositories/:id", RepositoriesController.update);
 
+RepositoriesRouter.delete("/repositories/:id", RepositoriesController.delete);
+
 module.exports = RepositoriesRouter;
