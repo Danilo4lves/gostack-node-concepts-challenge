@@ -24,7 +24,7 @@ class LikesController {
 
       repositories.splice(repositoryToBeFoundIndex, 1, newRepository);
 
-      const successResponse = getSuccessResponse(repositories);
+      const successResponse = getSuccessResponse(newRepository);
 
       return response.json(successResponse);
     }
