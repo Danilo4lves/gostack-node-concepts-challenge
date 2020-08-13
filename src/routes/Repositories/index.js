@@ -2,7 +2,7 @@
 const { Router } = require("express");
 
 // Controllers
-const RepositoriesController = require("../../controllers/Repositories");
+const { RepositoriesController } = require("../../controllers");
 
 // Router
 const RepositoriesRouter = Router();
