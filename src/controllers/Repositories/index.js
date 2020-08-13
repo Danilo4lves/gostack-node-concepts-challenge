@@ -4,14 +4,9 @@ const { uuid } = require("uuidv4");
 // Database
 const repositories = require("../../database");
 
-// Infra
-const { getSuccessResponse, getErrorResponse } = require("../../infra");
-
 class RepositoriesController {
   getAll(request, response) {
-    const successResponse = getSuccessResponse(repositories);
-
-    return response.json(successResponse);
+    return response.json(repositories);
   }
 
   create(request, response) {
@@ -33,14 +28,12 @@ class RepositoriesController {
 
       repositories.push(newRepository);
 
-      const successResponse = getSuccessResponse(repositories);
-
-      return response.json(successResponse);
+      return response.json(newRepository);
     }
 
-    const errorResponse = getErrorResponse();
-
-    return response.status(400).send(errorResponse);
+    return response.status(400).send({
+      errorMessage: "Oops... something went wrong!",
+    });
   }
 
   update(request, response) {
@@ -48,42 +41,29 @@ class RepositoriesController {
     const { id } = params;
     const { title, url, techs } = body;
 
-    const hasAllRequestData = title && url && techs;
+    const repositoryToBeFoundIndex = repositories.findIndex((repository) => {
+      return id === repository.id;
+    });
 
-    if (hasAllRequestData) {
-      const repositoryToBeFoundIndex = repositories.findIndex((repository) => {
-        return id === repository.id;
-      });
+    if (repositoryToBeFoundIndex >= 0) {
+      const { likes = 0 } = repositories[repositoryToBeFoundIndex];
 
-      if (repositoryToBeFoundIndex >= 0) {
-        const { likes = 0 } = repositories[repositoryToBeFoundIndex];
+      const newRepository = {
+        id,
+        title,
+        url,
+        techs,
+        likes,
+      };
 
-        const newRepository = {
-          id,
-          title,
-          url,
-          techs,
-          likes,
-        };
+      repositories[repositoryToBeFoundIndex] = newRepository;
 
-        repositories[repositoryToBeFoundIndex] = newRepository;
-
-        const successResponse = getSuccessResponse(repositories);
-
-        return response.json(successResponse);
-      }
-
-      const notFoundErrorResponse = getErrorResponse(
-        "Repository could not be found.",
-        404
-      );
-
-      return response.status(404).json(notFoundErrorResponse);
+      return response.json(newRepository);
     }
 
-    const errorResponse = getErrorResponse();
-
-    return response.status(400).json(errorResponse);
+    return response.status(400).send({
+      errorMessage: "Oops... something went wrong!",
+    });
   }
 
   delete(request, response) {
@@ -97,14 +77,12 @@ class RepositoriesController {
     if (repositoryTobeFoundIndex >= 0) {
       repositories.splice(repositoryTobeFoundIndex, 1);
 
-      const successResponse = getSuccessResponse(repositories);
-
-      return response.json(successResponse);
+      return response.status(204).json({});
     }
 
-    const errorResponse = getErrorResponse();
-
-    return response.status(400).json(errorResponse);
+    return response.status(400).send({
+      errorMessage: "Oops... something went wrong!",
+    });
   }
 }
 

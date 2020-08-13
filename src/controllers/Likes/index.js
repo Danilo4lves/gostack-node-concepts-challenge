@@ -1,9 +1,6 @@
 // Database
 const repositories = require("../../database");
 
-// Infra
-const { getSuccessResponse, getErrorResponse } = require("../../infra");
-
 class LikesController {
   increase(request, response) {
     const { params = {} } = request;
@@ -24,14 +21,12 @@ class LikesController {
 
       repositories.splice(repositoryToBeFoundIndex, 1, newRepository);
 
-      const successResponse = getSuccessResponse(newRepository);
-
-      return response.json(successResponse);
+      return response.json(newRepository);
     }
 
-    const errorResponse = getErrorResponse();
-
-    return response.status(400).json(errorResponse);
+    return response.status(400).json({
+      errorMessage: "Oops... something went wrong",
+    });
   }
 }
 
