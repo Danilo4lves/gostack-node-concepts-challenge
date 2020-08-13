@@ -50,21 +50,13 @@ class RepositoriesController {
 
     const hasAllRequestData = title && url && techs;
 
-    console.log("insidedsda");
-
     if (hasAllRequestData) {
       const repositoryToBeFoundIndex = repositories.findIndex((repository) => {
         return id === repository.id;
       });
 
       if (repositoryToBeFoundIndex >= 0) {
-        let likes = 0;
-
-        const repository = repositories[repositoryToBeFoundIndex];
-
-        if (repository && repository.likes) {
-          likes = repository.likes;
-        }
+        const { likes = 0 } = repositories[repositoryToBeFoundIndex];
 
         const newRepository = {
           id,
